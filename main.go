@@ -33,8 +33,10 @@ func ServeWS(hub *Hub,w http.ResponseWriter,r *http.Request){
 	go client.ReadPump()
 
 }
-
-
+// will serve the file 
+func serveHome(w http.ResponseWriter,r *http.Request){
+	http.ServeFile(w,r,"index.html")
+}
 func main(){
 	// initiate the hub 
 	hub :=NewHub()
@@ -43,8 +45,7 @@ func main(){
 
 	 r :=chi.NewRouter()
 	 r.Get("/",serveHome)
-	 r.Get("/ws",func(w http.ResponseWriter,r*http.Request)
-{
+	 r.Get("/ws",func(w http.ResponseWriter,r*http.Request){
 	ServeWS(hub,w,r); 
 })
 log.Println("Server started on port :8080")

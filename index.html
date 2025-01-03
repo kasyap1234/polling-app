@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polling App</title>
+</head>
+<body>
+    <h1>Real-Time Polling App</h1>
+    <button onclick="vote('Option A')">Vote Option A</button>
+    <button onclick="vote('Option B')">Vote Option B</button>
+    <button onclick="vote('Option C')">Vote Option C</button>
+
+    <h2>Vote Counts:</h2>
+    <pre id="voteCounts"></pre>
+
+    <script>
+        const ws = new WebSocket("ws://localhost:8080/ws");
+
+        ws.onmessage = (event) => {
+            const voteCounts = JSON.parse(event.data);
+            document.getElementById("voteCounts").innerText = JSON.stringify(voteCounts, null, 2);
+        };
+
+        function vote(option) {
+            const message = JSON.stringify({ option });
+            ws.send(message);
+        }
+    </script>
+</body>
+</html>
