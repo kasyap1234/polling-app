@@ -36,8 +36,19 @@ func ServeWS(hub *Hub,w http.ResponseWriter,r *http.Request){
 
 
 func main(){
+	// initiate the hub 
 	hub :=NewHub()
+	// separate goroutine to ensure that the websocket does not block the rest of the process 
 	go hub.Run()
+
 	 r :=chi.NewRouter()
-	 r.Get
+	 r.Get("/",serveHome)
+	 r.Get("/ws",func(w http.ResponseWriter,r*http.Request)
+{
+	ServeWS(hub,w,r); 
+})
+log.Println("Server started on port :8080")
+log.Fatal(http.ListenAndServe(":8080",r))
+
+
 }
