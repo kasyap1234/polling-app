@@ -33,6 +33,7 @@ func (c*Client) ReadPump(){
 	}()
 	for {
 		_,message,err :=c.conn.ReadMessage()
+	
 		if err !=nil {
 			log.Println("websocket read error",err)
 
